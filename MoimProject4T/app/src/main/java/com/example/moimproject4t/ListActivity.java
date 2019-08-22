@@ -16,13 +16,14 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     TextView textView;
     Button button;
     Button button2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        textView=findViewById(R.id.textView);
-        button=findViewById(R.id.button_logoff);
-        button2=findViewById(R.id.button_update);
+        textView = findViewById(R.id.textView);
+        button = findViewById(R.id.button_logoff);
+        button2 = findViewById(R.id.button_update);
         button.setOnClickListener(this);
         button2.setOnClickListener(this);
 
@@ -31,22 +32,23 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
 
         String user_id = intent.getStringExtra("user_id");
 
-        Log.d("[getData]", "user_id_2 : "+user_id);
+        Log.d("[getData]", "user_id_2 : " + user_id);
 
-        textView.setText("id : "+user_id);
+        textView.setText("id : " + user_id);
     }
 
+    //로그아웃 = 세션 닫기
     private void logout() {
         UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
             @Override
             public void onCompleteLogout() {
-                Toast.makeText(ListActivity.this,"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("[profile]", "로그아웃 성공");
             }
 
             @Override
             public void onSuccess(Long result) {
-                Toast.makeText(ListActivity.this,"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("[profile]", "로그아웃 성공 : " + result);
                 Intent intent_goLogin = new Intent(ListActivity.this, MainActivity.class);
                 intent_goLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -57,7 +59,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.button_logoff:
                 logout();
                 break;

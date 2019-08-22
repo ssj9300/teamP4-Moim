@@ -7,34 +7,82 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:srcCompat="@mipmap/ic_launcher" />
 
-    <Button
-        android:id="@+id/button_login"
+    <LinearLayout
+        android:id="@+id/layout_login"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/kakao_account_login_btn_large_wide" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="30dp"
+        android:visibility="visible">
 
-    <!-- 카카오 자체 제공 버튼. 세션이나 기타 실행을 알아서 처리 해 줍니다. 이를 visibility gone 설정을
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="메인 화면"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#605CA8"
+            android:textSize="90sp" />
+
+        <Button
+            android:id="@+id/button_login"
+            android:layout_width="317dp"
+            android:layout_height="56dp"
+            android:background="@drawable/kakao_account_login_btn_large_wide" />
+
+        <!-- 카카오 자체 제공 버튼. 세션이나 기타 실행을 알아서 처리 해 줍니다. 이를 visibility gone 설정을
          하고 button_kakao에 연동시키는 방식으로 처리 했습니다.-->
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/btn_kakao_login"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:visibility="gone"/>
+        <com.kakao.usermgmt.LoginButton
+            android:id="@+id/btn_kakao_login"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone">
 
-    <Button
-        android:id="@+id/button_logout"
+        </com.kakao.usermgmt.LoginButton>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_load"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/com_kakao_brown"
-        android:text="로그아웃"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/bg_login_button" />
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="142dp"
+            android:layout_height="74dp"
+            android:indeterminateTint="#605CA8" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="360dp"
+            android:layout_height="132dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="모임 어플"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#605CA8"
+            android:textSize="85sp" />
+    </LinearLayout>
+
 </LinearLayout>
