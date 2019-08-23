@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#605CA8</color>
+    <color name="colorPrimaryDark">#453FB3</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="wine">#FC7E7E</color>
+    <color name="darkBrown">#FDA169</color>
+    <color name="darkGold">#FCDA7A</color>
+    <color name="khaki">#FAEE85</color>
+    <color name="sadGreen">#DAFD7B</color>
+    <color name="strongGreen">#86FC7F</color>
+    <color name="gloomyGreen">#6BE7FA</color>
+    <color name="navy">#4D88FF</color>
+    <color name="lightViolet">#A86CFF</color>
+    <color name="violet">#FF6AED</color>
+    <color name="darkWine">#FD70B8</color>
+    <color name="absoluteBlack">#FC6565</color>
+    <color name="mainColor">#5F5AB8</color>
+    <color name="point1">#feef3d</color>
+    <color name="point2">#ef4733</color>
+    <color name="textMain">#58595B</color>
+    <color name="textVailed">#E0E0E0</color>
+    <color name="pureWhite">#FFFFFF</color>
+    <color name="pureViolet">#EAE9FF</color>
+
+</resources>
