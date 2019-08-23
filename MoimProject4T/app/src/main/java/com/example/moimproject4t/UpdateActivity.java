@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -69,6 +70,10 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
 
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
+
+        //타이틀바 제거
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
     @Override
@@ -172,7 +177,7 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
 
     //회원 탈퇴
     private void onClickUnlink() {
-        final String appendMessage = getString(R.string.com_kakao_confirm_unlink);
+        final String appendMessage = "회원 탈퇴 하시겠습니까?";
         new AlertDialog.Builder(this)
                 .setMessage(appendMessage)
                 .setPositiveButton(getString(R.string.com_kakao_ok_button),

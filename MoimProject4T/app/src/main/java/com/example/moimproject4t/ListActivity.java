@@ -1,6 +1,7 @@
 package com.example.moimproject4t;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,10 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("[getData]", "user_id_2 : " + user_id);
 
         textView.setText("id : " + user_id);
+
+        //타이틀바 제거
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
     }
 
     //로그아웃 = 세션 닫기

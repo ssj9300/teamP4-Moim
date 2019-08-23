@@ -12,27 +12,18 @@
         android:id="@+id/layout_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:background="@drawable/tople_main"
+        android:gravity="bottom|center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="30dp"
-        android:visibility="visible">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="메인 화면"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#605CA8"
-            android:textSize="90sp" />
+        android:visibility="gone">
 
         <Button
             android:id="@+id/button_login"
             android:layout_width="317dp"
             android:layout_height="56dp"
-            android:background="@drawable/kakao_account_login_btn_large_wide" />
+            android:background="@drawable/kakao_account_login_btn_large_wide"
+            android:gravity="bottom|center" />
 
         <!-- 카카오 자체 제공 버튼. 세션이나 기타 실행을 알아서 처리 해 줍니다. 이를 visibility gone 설정을
          하고 button_kakao에 연동시키는 방식으로 처리 했습니다.-->
@@ -51,10 +42,11 @@
         android:id="@+id/layout_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:gravity="center"
+        android:background="@drawable/tople_main"
+        android:gravity="bottom|center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:paddingBottom="100dp"
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progressBar2"
@@ -68,21 +60,9 @@
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
+        android:background="@drawable/tople_main"
         android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView_title"
-            android:layout_width="360dp"
-            android:layout_height="132dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="모임 어플"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#605CA8"
-            android:textSize="85sp" />
-    </LinearLayout>
+        android:visibility="gone" />
 
 </LinearLayout>
