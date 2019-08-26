@@ -1,14 +1,19 @@
 package com.example.moimproject4t;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -27,68 +32,96 @@ import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.callback.UnLinkResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.usermgmt.response.model.Gender;
 import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.helper.log.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class SetActivity extends AppCompatActivity
-        implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+        implements View.OnClickListener {
     Button buttonBackToHome, buttonToEdit;
-    Button buttonBackToSet, buttonSave;
+
 
     ImageView imageViewToEdit;
     LinearLayout layoutInfo, layoutEdit;
-    RadioGroup radioGroupGen;
 
     TextView textView18, textViewName;
-    Button button_logoff;
 
-    String user_id = "";
+    Button button_logoff;
 
     String access_token = "";
     String refresh_token = "";
 
-    String profile = "";
-    String name = "";
+    //레이아웃 에딧 영역
+    Button buttonBackToSet, buttonSave, buttonOut;
+    ImageView imageView_profile;
+    EditText editText_name, editText_intro, editText_pnum, editText_gender;
+    TextView set_birth, set_region;
+
+
+
+
+    String profile = ""; //프로필 사진 URL
+    String name = "";   //닉네임
+    String birthday = "";   //생일(mm/dd)
+    String region = ""; //거주지역(기본값 null)
+    String user_id = ""; //user 개별 id
+    String phone_num = ""; //핸드폰 번호
+    String self_int = ""; //자기소개
+    String gender = ""; //성별
+    String thumb = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
 
         //타이틀바 제거
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.hide();
 
         button_logoff = findViewById(R.id.button_logoff);
         textView18 = findViewById(R.id.textView18);
         textViewName=findViewById(R.id.textViewName_set);
-        radioGroupGen = findViewById(R.id.radioGroupGen);
         buttonBackToSet = findViewById(R.id.buttonBackToSet);
         buttonSave = findViewById(R.id.buttonSave);
-
+        buttonOut = findViewById(R.id.buttonOut);
 
         buttonBackToHome = findViewById(R.id.buttonBackToHome);
         buttonToEdit = findViewById(R.id.buttonToEdit);
         imageViewToEdit = findViewById(R.id.imageViewToEdit);
+        editText_gender=findViewById(R.id.editText_gender);
+        imageView_profile = findViewById(R.id.imageViewFace);
         layoutInfo = findViewById(R.id.layoutInfo);
         layoutEdit = findViewById(R.id.layoutEdit);
+
+        set_birth=findViewById(R.id.set_birth);
+        set_region=findViewById(R.id.set_region);
 
         layoutEdit.setVisibility(View.GONE);
         layoutInfo.setVisibility(View.VISIBLE);
 
+        editText_name=findViewById(R.id.editText_name);
+
         imageViewToEdit.setOnClickListener(this);
-        radioGroupGen.setOnCheckedChangeListener(this);
         buttonBackToHome.setOnClickListener(this);
         buttonToEdit.setOnClickListener(this);
         buttonBackToSet.setOnClickListener(this);
         buttonSave.setOnClickListener(this);
         button_logoff.setOnClickListener(this);
+        set_region.setOnClickListener(this);
+        set_birth.setOnClickListener(this);
+        buttonOut.setOnClickListener(this);
 
         requestMe();
+
+
     }
 
     //로그아웃 = 세션 닫기
@@ -105,8 +138,10 @@ public class SetActivity extends AppCompatActivity
                 Toast.makeText(SetActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("[profile]", "로그아웃 성공 : " + result);
                 Intent intent_goLogin = new Intent(SetActivity.this, MainActivity.class);
-                intent_goLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent_goLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent_goLogin.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent_goLogin);
+                finish();
             }
         });
     }
@@ -125,37 +160,47 @@ public class SetActivity extends AppCompatActivity
             case R.id.buttonToEdit:
                 layoutInfo.setVisibility(View.GONE);
                 layoutEdit.setVisibility(View.VISIBLE);
-                intent = new Intent(SetActivity.this, UpdateActivity.class);
-                //intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
                 break;
             case R.id.buttonBackToSet:
                 layoutInfo.setVisibility(View.VISIBLE);
                 layoutEdit.setVisibility(View.GONE);
                 break;
             case R.id.buttonSave:
-                intent = new Intent(this, MypageActivity.class);
-                startActivity(intent);
-                finish();
-                // 선택된 라이도 버튼의 ID값 얻기
-                int checkedId = radioGroupGen.getCheckedRadioButtonId();
-                // 획득한 ID값으로 라디오버튼 객체 할당
-                RadioButton radioButton = findViewById(checkedId);
-                //문자열 얻기
-                String text = radioButton.getText().toString();
-                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+
                 break;
+
+            case R.id.set_birth:
+                break;
+
+            case R.id.set_region:
+                Log.d("[info]", "test");
+                region_set();
+                break;
+
+            case R.id.buttonOut:
+                onClickUnlink();
+                break;
+
         }
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (group.getId()) {
-            case R.id.radioGroupGen:
-                RadioButton radioButton = findViewById(checkedId);
-                //textView2.setText(radioButton.getText().toString());
-                break;
-        }
+    private void region_set() {
+      final String[] items = new String[]{"서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"};
+      final int[] selectedIndex={0};
+
+        AlertDialog.Builder dialog= new AlertDialog.Builder(SetActivity.this);
+        dialog.setTitle("지역 선택").setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                selectedIndex[0] = which;
+            }
+        }).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                set_region.setText(items[selectedIndex[0]]);
+            }
+        });
+        dialog.show();
     }
 
     private void requestMe() {
@@ -191,10 +236,17 @@ public class SetActivity extends AppCompatActivity
                 user_id = Long.toString(id);
                 name = response.getNickname();
                 UserAccount account = response.getKakaoAccount();
-                String thumb = response.getThumbnailImagePath();
+                thumb = response.getThumbnailImagePath();
                 profile = response.getProfileImagePath();
                 Map prop = response.getProperties();
-                String region = (String) prop.get("region");
+                region = (String) prop.get("region");
+                birthday = response.getKakaoAccount().getBirthday();
+                self_int = (String) prop.get("self_int");
+                phone_num = (String) prop.get("phone_num");
+                Gender gender2 = response.getKakaoAccount().getGender();
+                gender = String.valueOf(gender2);
+
+
 
                 Log.d("[profile]", "user_id_set:" + user_id);
                 Log.d("[profile]", "name_set:" + name);
@@ -202,10 +254,48 @@ public class SetActivity extends AppCompatActivity
                 Log.d("[profile]", "profile_set:" + profile);
                 Log.d("[profile]", "region_set:"+region);
                 Log.d("[profile]", "prop_set: "+ prop);
+                Log.d("[profile]", "birthday_set:"+birthday);
+                Log.d("[profile]", "phone_num_set:"+phone_num);
+                Log.d("[profile]", "self_int_set:"+self_int);
+                Log.d("[profile]", "gender:"+gender);
 
 
                 requestAccessTokenInfo();
                 handleScopeError(account);
+
+
+
+                if ((name!=null)) {//이름 출력
+                    editText_name.setText(name);
+                    textViewName.setText(name);
+                }
+                if ((self_int!=null)) { //자기소개 출력
+                    editText_intro.setText(self_int);
+                }
+                if ((phone_num!=null)) { //전화번호 출력
+                    editText_pnum.setText(phone_num);
+                }
+                if ((region!=null)) { //거주지역 출력
+                    set_region.setText(region);
+                }
+                if ((birthday!=null)) { //생일 출력
+                    String birth_mm =  birthday.substring(0,2);
+                    String birth_dd = birthday.substring(2);
+                    set_birth.setText(birth_mm+"월 "+birth_dd+"일");
+                }
+
+                if(gender!="null"){ //성별 출력
+                    if (gender=="MALE"){
+                        editText_gender.setText("남성");
+                    }else if(gender=="FEMALE"){
+                        editText_gender.setText("여성");
+                    }
+                }
+
+                if (profile!=null){ //프로필 이미지 출력
+                    Glide.with(SetActivity.this).load(profile).into(imageViewToEdit);
+                    Glide.with(SetActivity.this).load(profile).into(imageView_profile);
+                }
 
             }
 
@@ -240,8 +330,7 @@ public class SetActivity extends AppCompatActivity
                 Logger.d("this access token expires after " + expiresInMilis + " milliseconds.");
                 Log.d("[profile]", "토큰유효시간 :" + exTime + "m/s");
 
-                Glide.with(SetActivity.this).load(profile).into(imageViewToEdit);
-                textViewName.setText(name);
+
             }
         });
     }
@@ -277,6 +366,54 @@ public class SetActivity extends AppCompatActivity
                 }
                 );
 
+
+    }
+
+    //회원탈퇴
+    private void onClickUnlink() {
+        final String appendMessage = "회원 탈퇴 하시겠습니까?";
+        new AlertDialog.Builder(this)
+                .setMessage(appendMessage)
+                .setPositiveButton(getString(R.string.com_kakao_ok_button),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {
+                                    @Override
+                                    public void onFailure(ErrorResult errorResult) {
+                                        Logger.e(errorResult.toString());
+                                    }
+
+                                    @Override
+                                    public void onSessionClosed(ErrorResult errorResult) {
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onNotSignedUp() {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Long userId) {
+                                        Toast.makeText(SetActivity.this, "탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                });
+                                dialog.dismiss();
+                            }
+                        })
+                .setNegativeButton(getString(R.string.com_kakao_cancel_button),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+        /**회원 탈퇴 DB처리 코드 넣을 영역
+         *
+         */
 
     }
 }

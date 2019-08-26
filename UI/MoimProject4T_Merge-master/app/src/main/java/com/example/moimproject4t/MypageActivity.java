@@ -42,8 +42,8 @@ public class MypageActivity extends AppCompatActivity  implements View.OnClickLi
         setContentView(R.layout.activity_mypage);
 
         //타이틀바 제거
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.hide();
 
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);

@@ -24,7 +24,7 @@
         android:textColor="@color/textVailed" />
 
     <EditText
-        android:id="@+id/editTextLoca"
+        android:id="@+id/set_region"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"

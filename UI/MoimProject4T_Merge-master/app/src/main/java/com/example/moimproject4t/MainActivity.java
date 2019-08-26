@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//타이틀바 제거
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        //타이틀바 제거
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.hide();
 
         button = findViewById(R.id.button_login);
         btn_kakao = findViewById(R.id.btn_kakao_login);
@@ -228,6 +228,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String profile = response.getProfileImagePath();
                 Map prop = response.getProperties();
                 String region = (String) prop.get("region");
+                String self_int = (String) prop.get("self_int");
+                String phone_num = (String)prop.get("phone_num");
+                String birthday = response.getKakaoAccount().getBirthday();
 
 
                 //DB에 사용자 아이디 정보가 없을시 디비에 저장
@@ -240,7 +243,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("[profile]", "thumb:" + thumb);
                 Log.d("[profile]", "profile:" + profile);
                 Log.d("[profile]", "region:"+region);
-                Log.d("[profile]", "prop: "+ prop);
+                Log.d("[profile]", "birthday:"+birthday);
+                Log.d("[profile]", "phone_num:"+phone_num);
+                Log.d("[profile]", "self_int:"+self_int);
+                //Log.d("[profile]", "prop: "+ prop);
 
 
                 requestAccessTokenInfo();
