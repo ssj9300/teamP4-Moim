@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SessionCallback callback;
 
     Button button;
-    Button button_logout;
     LoginButton btn_kakao;
 
     String user_id;
@@ -62,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //타이틀바 제거
-        //ActionBar actionBar = getSupportActionBar();
-        //actionBar.hide();
+
 
         button = findViewById(R.id.button_login);
         btn_kakao = findViewById(R.id.btn_kakao_login);
@@ -81,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layout2.setVisibility(View.GONE);
         getHash();
         permissionCheck();
+
 
 
 
@@ -120,10 +118,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             } else {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
             }
         }
     }
+
 
     private void getHash() {
 
@@ -139,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -203,8 +201,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //의도치 않은 세션 종료로 인한 에러
             @Override
             public void onSessionClosed(ErrorResult errorResult) {
-                Toast.makeText(MainActivity.this, "세션 종료", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "세션 종료. 어플을 재실행해주세요!", Toast.LENGTH_SHORT);
                 Log.e("[error]", "세션 종료로 인한 에러 발생");
+                finish();
 
             }
 

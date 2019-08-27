@@ -33,8 +33,6 @@ public class SearchActivity extends AppCompatActivity
         setContentView(R.layout.activity_search);
 
         //타이틀바 제거
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
         buttonHome = findViewById(R.id.buttonHome);
         buttonSearch= findViewById(R.id.buttonSearch);
