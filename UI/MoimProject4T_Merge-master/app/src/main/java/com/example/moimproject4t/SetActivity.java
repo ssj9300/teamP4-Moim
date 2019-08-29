@@ -127,7 +127,8 @@ public class SetActivity extends AppCompatActivity
         imageView_profile = findViewById(R.id.imageViewFace); // 정보수정화면 프로필 출력
 
         set_region = findViewById(R.id.set_region); //지역 설정
-
+        set_birth = findviewById(R.id.set_birth); //성별 출력
+        
         editText_name = findViewById(R.id.editText_name); //이름 수정
         editText_intro = findViewById(R.id.editText_intro); // 자기소개 수정
         editText_gender = findViewById(R.id.editText_gender); //성별 수정
