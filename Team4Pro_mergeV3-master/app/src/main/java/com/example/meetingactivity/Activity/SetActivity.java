@@ -105,12 +105,12 @@ public class SetActivity extends AppCompatActivity
     String custom_prof = ""; //커스텀프로필사진
 
 
-    String filePath = ""; //사진경로
+    String filePath; //사진경로
 
     String URL_Photo = "http://192.168.0.93:8080/moim.4t.spring/userProf.tople"; //사진 저장용 URL
     String URL_Fire = ""; //회원 탈퇴용 URL
 
-    String update_prof = "";
+    String update_prof;
 
     HttpResponse response;
 
@@ -517,7 +517,11 @@ public class SetActivity extends AppCompatActivity
     }
 
     private void update_profile() {
+
+
+
         if (filePath != null) {
+            Log.d("[test]", "test start2"+filePath);
             //사진 서버 저장
             RequestParams params = new RequestParams();
             params.put("id", user_id);
@@ -528,69 +532,70 @@ public class SetActivity extends AppCompatActivity
             }
             client.post(URL_Photo, params, response);
         } else {
+            Log.d("[test]", "test start3"+filePath);
             kakaoUpdate();
         }
     }
 
-        private void kakaoUpdate() {
+    private void kakaoUpdate() {
+        Log.d("[test]", "test start4"+filePath);
+        String update_nickname = editText_name.getText().toString();
+        String update_selfInt = editText_intro.getText().toString();
+        String update_region = set_region.getText().toString();
+        String update_pNum = editText_pnum.getText().toString();
 
-            String update_nickname = editText_name.getText().toString();
-            String update_selfInt = editText_intro.getText().toString();
-            String update_region = set_region.getText().toString();
-            String update_pNum = editText_pnum.getText().toString();
+        Log.d("[update]", update_nickname + "/" + update_pNum + "/" + update_region + "/" + update_selfInt);
 
-            Log.d("[update]", update_nickname + "/" + update_pNum + "/" + update_region + "/" + update_selfInt);
+        //카카오 저장
+        final Map<String, String> properties = new HashMap<String, String>();
 
-            //카카오 저장
-            final Map<String, String> properties = new HashMap<String, String>();
-
-            if (update_nickname != null) {
-                properties.put("nickname", update_nickname);
-            }
-
-            if (update_region != null) {
-                properties.put("region", update_region);
-            }
-
-            if (update_selfInt != null) {
-                properties.put("self_int", update_selfInt);
-            }
-            if (update_pNum != null) {
-                properties.put("phone_num", update_pNum);
-            }
-            if (update_prof != null) {
-                properties.put("update_prof", update_prof);
-            }
-
-
-            UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
-                @Override
-                public void onSuccess(Long userId) {
-                    Toast.makeText(SetActivity.this, "수정되었습니다.", Toast.LENGTH_SHORT).show();
-                    layoutEdit.setVisibility(View.GONE);
-                    layoutInfo.setVisibility(View.VISIBLE);
-                    requestMe();
-                }
-
-                @Override
-                public void onNotSignedUp() {
-                    Log.d("[update]", "test2");
-                }
-
-                @Override
-                public void onFailure(ErrorResult errorResult) {
-                    String message = "failed to get user info. msg=" + errorResult;
-                    Log.d("[error]", message);
-                    Toast.makeText(SetActivity.this, "수정실패", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onSessionClosed(ErrorResult errorResult) {
-                    Log.d("[update]", "test3");
-                }
-            }, properties);
-
+        if (update_nickname != null) {
+            properties.put("nickname", update_nickname);
         }
+
+        if (update_region != null) {
+            properties.put("region", update_region);
+        }
+
+        if (update_selfInt != null) {
+            properties.put("self_int", update_selfInt);
+        }
+        if (update_pNum != null) {
+            properties.put("phone_num", update_pNum);
+        }
+        if (update_prof != null) {
+            properties.put("update_prof", update_prof);
+        }
+
+
+        UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
+            @Override
+            public void onSuccess(Long userId) {
+                Toast.makeText(SetActivity.this, "수정되었습니다.", Toast.LENGTH_SHORT).show();
+                layoutEdit.setVisibility(View.GONE);
+                layoutInfo.setVisibility(View.VISIBLE);
+                requestMe();
+            }
+
+            @Override
+            public void onNotSignedUp() {
+                Log.d("[update]", "test2");
+            }
+
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                String message = "failed to get user info. msg=" + errorResult;
+                Log.d("[error]", message);
+                Toast.makeText(SetActivity.this, "수정실패", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSessionClosed(ErrorResult errorResult) {
+                Log.d("[update]", "test3");
+            }
+        }, properties);
+
+    }
 
     private void selectPhoto() {
 

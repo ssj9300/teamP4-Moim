@@ -278,6 +278,7 @@ public class MypageActivity extends AppCompatActivity   implements View.OnClickL
                             Intent intent = new Intent(MypageActivity.this, MypageActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             startActivity(intent);
+                            finish();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -389,7 +390,7 @@ public class MypageActivity extends AppCompatActivity   implements View.OnClickL
         //////////////////////
         client.post(URL, params, response);
             }
-        }, 500);
+        }, 100);
     }
 
     // 통신 결과를 받아서 처리할 이너클래스
@@ -397,9 +398,6 @@ public class MypageActivity extends AppCompatActivity   implements View.OnClickL
         // 객체 선언
         Activity activity; // Toast를 표시하는 데 사용하기 위한 Context
         MypageAdapter adapter;  // 데이터를 List에 저장
-        //ListView listView;// 로딩중임을 표시하기 위한 포커스 조절을 위해 사용
-        // View footerView; // 로딩중임을 표시하기 위해서 사용
-        //ProgressDialog dialog;  // 기다려주세요 ... 다이얼로그
         GifLoading mProgressDialog;
 
 
