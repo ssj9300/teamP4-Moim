@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment.PhotoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/txtTitlePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="모임이름이 여기에 출력됩니다"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/mainColor"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <GridView
+                android:id="@+id/gridViewPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="730dp"
+                android:numColumns="2" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

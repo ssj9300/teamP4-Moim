@@ -1,0 +1,1 @@
+main액티비티, mypage액티비티, set액티비티, search액티비티까지 머지 완료
