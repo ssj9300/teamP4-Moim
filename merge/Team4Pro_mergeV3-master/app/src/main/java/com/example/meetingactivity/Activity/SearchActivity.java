@@ -272,9 +272,20 @@ public class SearchActivity extends AppCompatActivity
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            String result = new String(responseBody);
-            Log.d("[info]", result);
-            goList();
+            try {
+                JSONObject temp = new JSONObject(new String(responseBody));
+                String result = temp.getString("result");
+                Log.d("[moim]", result);
+
+                if (result.equals("ALREADY")){
+                    Toast.makeText(SearchActivity.this,"이미 가입된 모임입니다!", Toast.LENGTH_SHORT).show();
+                }else {
+                    goList();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
 
